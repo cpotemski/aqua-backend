@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+    id              String      @id
+    email           String      @unique
+    name            String      @unique
+    station         Station?
+    fleets          Fleet[]     @relation("ownerRelation")
+    incomingFleets  Fleet[]     @relation("targetRelation")
+}
+
+model Station {
+    id              String      @id @default(uuid())
+    name            String      @unique
+    owner           Player      @relation(fields: [ownerId], references: [id])
+    ownerId         String      @unique
+    resources       Resources   @relation(fields: [resourcesId], references: [id])
+    resourcesId     String      @unique
+    coordinates     Coordinates @relation(fields: [coordinatesId], references: [id])
+    coordinatesId   String      @unique
+}
+
+model Fleet {
+    id              String      @id @default(uuid())
+    owner           Player      @relation("ownerRelation", fields: [ownerId], references: [id])
+    ownerId         String
+    target          Player?     @relation("targetRelation", fields: [targetId], references: [id])
+    targetId        String?
+    baseFleet       Boolean     @default(false)
+    ships           Ships?
+    resources       Resources?  @relation(fields: [resourcesId], references: [id])
+    resourcesId     String?     @unique
+    travelTime      Int?
+    remainingTime   Int?
+    actionTicks     Int?
+    returning       Boolean?
+}
+
+model Ships {
+    id              String      @id @default(uuid())
+    fleet           Fleet       @relation(fields: [fleetId], references: [id])
+    fleetId         String      @unique
+    piranha         Int         @default(0)
+    jellyfish       Int         @default(0)
+    shark           Int         @default(0)
+    hackboat        Int         @default(0)
+    taifun          Int         @default(0)
+    blizzard        Int         @default(0)
+    hurricane       Int         @default(0)
+    tsunami         Int         @default(0)
+    enterprise      Int         @default(0)
+    bermuda         Int         @default(0)
+    kittyhawk       Int         @default(0)
+    atlantis        Int         @default(0)
+}
+
+model Resources {
+    id              String      @id @default(uuid())
+    aluminium       Int         @default(0)
+    steel           Int         @default(0)
+    plutonium       Int         @default(0)
+    energy          Int         @default(0)
+    station         Station?
+    fleet           Fleet?
+}
+
+model ResourceNode {
+    id              String      @id @default(uuid())
+    type            String
+    coordinates     Coordinates @relation(fields: [coordinatesId], references: [id])
+    coordinatesId   String      @unique
+}
+
+//enum ResourceType {
+//    ALUMINIUM
+//    STEEL
+//    PLUTONIUM
+//}
+
+model Coordinates {
+    id              String      @id @default(uuid())
+    x               Int
+    y               Int
+    station         Station?
+    resourceNode    ResourceNode?
+
+    @@unique([x,y])
+}

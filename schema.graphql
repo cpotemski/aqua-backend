@@ -1,0 +1,79 @@
+type Player {
+    id:             String!
+    name:           String!
+    station:        Station
+    fleets:         [Fleet!]
+    incomingFleets: [Fleet!]
+}
+
+type Resources {
+    id:             String!
+    aluminium:      Int!
+    steel:          Int!
+    plutonium:      Int!
+}
+
+type Coordinates {
+    id:             String!
+    x:              Int!
+    y:              Int!
+}
+
+type Station {
+    id:             String!
+    name:           String!
+    owner:          Player
+    resources:      Resources!
+    coordinates:    Coordinates!
+}
+
+type Fleet {
+    id:             String!
+    owner:          Player
+    target:         Player
+    baseFleet:      Boolean
+    ships:          Ships!
+    travelTime:     Int
+    remainingTime:  Int
+    actionTicks:    Int
+    returning:      Boolean
+}
+
+type Ships {
+    id:             String!
+    piranha:        Int
+    jellyfish:      Int
+    shark:          Int
+    hackboat:       Int
+    taifun:         Int
+    blizzard:       Int
+    hurricane:      Int
+    tsunami:        Int
+    enterprise:     Int
+    bermuda:        Int
+    kittyhawk:      Int
+    atlantis:       Int
+}
+
+input RegistrationInput {
+    id:             String!
+    email:          String!
+    name:           String!
+    stationName:    String!
+    coordinates:    CoordinatesInput!
+}
+
+input CoordinatesInput {
+    x:              Int!
+    y:              Int!
+}
+
+type Query {
+    me: Player!
+    playerById(id: String!): Player
+    allPlayers: [Player!]!
+}
+
+type Mutation {
+    register(input: RegistrationInput!): Player!
+}
