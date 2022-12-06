@@ -14,6 +14,7 @@ model Player {
     station         Station?
     fleets          Fleet[]     @relation("ownerRelation")
     incomingFleets  Fleet[]     @relation("targetRelation")
+    buildOrders     BuildOrder[]
 }
 
 model Station {
@@ -82,6 +83,7 @@ model ResourceNode {
 //    ALUMINIUM
 //    STEEL
 //    PLUTONIUM
+//    ENERGY
 //}
 
 model Coordinates {
@@ -93,3 +95,18 @@ model Coordinates {
 
     @@unique([x,y])
 }
+
+model BuildOrder {
+    id              String      @id @default(uuid())
+    owner           Player      @relation(fields: [ownerId], references: [id])
+    ownerId         String
+    type            String
+    what            String
+    amount          Int
+    remainingTime   Int
+}
+
+//enum BuildOrderType {
+//    HARVESTER
+//    SHIP
+//}

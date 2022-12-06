@@ -8,6 +8,7 @@ import {isTokenValid} from './isTokenValid';
 import {AquaContext} from './aqua-context.model';
 import {merge} from 'lodash';
 import {playerResolvers} from "./player";
+import {buildResolvers} from "./build";
 
 
 const {GraphQLFileLoader} = require('@graphql-tools/graphql-file-loader');
@@ -17,7 +18,8 @@ const typeDefs = loadSchemaSync(join(__dirname, './schema.graphql'), {
 });
 
 const resolvers: Resolvers<AquaContext> = merge(
-    playerResolvers
+    playerResolvers,
+    buildResolvers
 );
 
 const prisma: PrismaClient = new PrismaClient();

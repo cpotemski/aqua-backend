@@ -6,6 +6,10 @@ type Player {
     incomingFleets: [Fleet!]
 }
 
+type PlayerContext {
+    id:             String!
+}
+
 type Resources {
     id:             String!
     aluminium:      Int!
@@ -68,12 +72,29 @@ input CoordinatesInput {
     y:              Int!
 }
 
+type BuildOrder {
+    id:             String!
+    owner:          Player
+    type:           String!
+    what:           String!
+    amount:         Int!
+    remainingTime:  Int!
+}
+
+input BuildOrderInput {
+    type:           String!
+    what:           String!
+    amount:         Int!
+}
+
 type Query {
-    me: Player!
+    me: PlayerContext!
     playerById(id: String!): Player
     allPlayers: [Player!]!
+    buildOrders: [BuildOrder!]!
 }
 
 type Mutation {
     register(input: RegistrationInput!): Player!
+    createBuildOrder(input: BuildOrderInput!): BuildOrder
 }

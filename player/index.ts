@@ -4,7 +4,9 @@ import {Resolvers} from "../resolvers-types";
 export const playerResolvers: Resolvers<AquaContext> = {
     Query: {
         me: async (_, _1, {prisma, player}) => {
-            return player;
+            return {
+                id: player.id
+            };
         },
         playerById: async (_, {id}, {prisma}) => {
             return prisma.player.findFirst({
