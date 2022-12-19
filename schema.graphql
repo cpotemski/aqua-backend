@@ -1,3 +1,39 @@
+# enums
+
+enum ResourceTypes {
+    Aluminium
+    Steel
+    Plutonium
+}
+
+enum ShipName {
+    Piranha
+    Jellyfish
+    Shark
+    HackBoat
+    Taifun
+    Blizzard
+    Hurricane
+    Tsunami
+    Enterprise
+    Bermuda
+    KittyHawk
+    Atlantis
+}
+
+enum ShipType {
+    Normal
+    Emp
+    FirstStrike
+}
+
+enum BuildOrderType {
+    Ship
+    Harvester
+}
+
+# types
+
 type Player {
     id:             String!
     name:           String!
@@ -11,14 +47,14 @@ type PlayerContext {
 }
 
 type Resources {
-    id:             String!
-    aluminium:      Int!
-    steel:          Int!
-    plutonium:      Int!
+    id:             String
+    aluminium:      Int
+    steel:          Int
+    plutonium:      Int
 }
 
 type Coordinates {
-    id:             String!
+    id:             String
     x:              Int!
     y:              Int!
 }
@@ -59,6 +95,29 @@ type Ships {
     atlantis:       Int
 }
 
+type BuildOrder {
+    id:             String!
+    owner:          Player
+    type:           BuildOrderType!
+    what:           ShipName
+    amount:         Int!
+    remainingTime:  Int!
+}
+
+type Ship {
+    name: ShipName!
+    type: ShipType!
+    costs: Resources!
+    speed: Int!
+    travelCosts: Int!
+    health: Int!
+    cannons: Int!
+    firePower: Int!
+    buildTime: Int!
+}
+
+# inputs
+
 input RegistrationInput {
     id:             String!
     email:          String!
@@ -72,26 +131,20 @@ input CoordinatesInput {
     y:              Int!
 }
 
-type BuildOrder {
-    id:             String!
-    owner:          Player
-    type:           String!
-    what:           String!
+input BuildOrderInput {
+    type:           BuildOrderType!
+    what:           ShipName!
     amount:         Int!
-    remainingTime:  Int!
 }
 
-input BuildOrderInput {
-    type:           String!
-    what:           String!
-    amount:         Int!
-}
+# queries and mutations
 
 type Query {
     me: PlayerContext!
     playerById(id: String!): Player
     allPlayers: [Player!]!
     buildOrders: [BuildOrder!]!
+    shipData: [Ship!]!
 }
 
 type Mutation {

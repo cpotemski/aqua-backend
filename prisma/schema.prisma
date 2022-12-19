@@ -79,13 +79,6 @@ model ResourceNode {
     coordinatesId   String      @unique
 }
 
-//enum ResourceType {
-//    ALUMINIUM
-//    STEEL
-//    PLUTONIUM
-//    ENERGY
-//}
-
 model Coordinates {
     id              String      @id @default(uuid())
     x               Int
@@ -100,13 +93,43 @@ model BuildOrder {
     id              String      @id @default(uuid())
     owner           Player      @relation(fields: [ownerId], references: [id])
     ownerId         String
-    type            String
-    what            String
+    type            BuildOrderType
+    what            ShipName
     amount          Int
     remainingTime   Int
 }
 
-//enum BuildOrderType {
-//    HARVESTER
-//    SHIP
-//}
+// enums
+
+enum ResourceTypes {
+    Aluminium
+    Steel
+    Plutonium
+}
+
+enum ShipName {
+    Piranha
+    Jellyfish
+    Shark
+    HackBoat
+    Taifun
+    Blizzard
+    Hurricane
+    Tsunami
+    Enterprise
+    Bermuda
+    KittyHawk
+    Atlantis
+}
+
+enum ShipType {
+    Normal
+    Emp
+    FirstStrike
+}
+
+enum BuildOrderType {
+    Ship
+    Harvester
+}
+
