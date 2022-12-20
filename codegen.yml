@@ -1,6 +1,8 @@
 schema: schema.graphql
 generates:
   ./resolvers-types.ts:
+    config:
+      enumsAsConst: true
     plugins:
       - typescript
       - typescript-resolvers
