@@ -26,6 +26,8 @@ model Station {
     resourcesId     String      @unique
     coordinates     Coordinates @relation(fields: [coordinatesId], references: [id])
     coordinatesId   String      @unique
+    harvesters      Int         @default(10)
+    distribution    Int[]       @default([50, 30])
 }
 
 model Fleet {
@@ -74,7 +76,7 @@ model Resources {
 
 model ResourceNode {
     id              String      @id @default(uuid())
-    type            String
+    type            ResourceType
     coordinates     Coordinates @relation(fields: [coordinatesId], references: [id])
     coordinatesId   String      @unique
 }
@@ -101,7 +103,7 @@ model BuildOrder {
 
 // enums
 
-enum ResourceTypes {
+enum ResourceType {
     Aluminium
     Steel
     Plutonium

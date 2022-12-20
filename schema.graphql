@@ -1,6 +1,6 @@
 # enums
 
-enum ResourceTypes {
+enum ResourceType {
     Aluminium
     Steel
     Plutonium
@@ -116,6 +116,12 @@ type Ship {
     buildTime: Int!
 }
 
+type ResourceNode {
+    id:              String!
+    type:            ResourceType!
+    coordinates:     Coordinates!
+}
+
 # inputs
 
 input RegistrationInput {
@@ -142,12 +148,15 @@ input BuildOrderInput {
 type Query {
     me: PlayerContext!
     playerById(id: String!): Player
-    allPlayers: [Player!]!
+    players: [Player!]!
     buildOrders: [BuildOrder!]!
     shipData: [Ship!]!
+    resourceNodes: [ResourceNode!]!
+    fleets: [Fleet!]!
 }
 
 type Mutation {
     register(input: RegistrationInput!): Player!
     createBuildOrder(input: BuildOrderInput!): BuildOrder
+    createFleet: Fleet
 }

@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ResourceTypes" AS ENUM ('Aluminium', 'Steel', 'Plutonium');
+CREATE TYPE "ResourceType" AS ENUM ('Aluminium', 'Steel', 'Plutonium');
 
 -- CreateEnum
 CREATE TYPE "ShipName" AS ENUM ('Piranha', 'Jellyfish', 'Shark', 'HackBoat', 'Taifun', 'Blizzard', 'Hurricane', 'Tsunami', 'Enterprise', 'Bermuda', 'KittyHawk', 'Atlantis');
@@ -26,6 +26,8 @@ CREATE TABLE "Station" (
     "ownerId" TEXT NOT NULL,
     "resourcesId" TEXT NOT NULL,
     "coordinatesId" TEXT NOT NULL,
+    "harvesters" INTEGER NOT NULL DEFAULT 10,
+    "distribution" INTEGER[] DEFAULT ARRAY[50, 30]::INTEGER[],
 
     CONSTRAINT "Station_pkey" PRIMARY KEY ("id")
 );
@@ -79,7 +81,7 @@ CREATE TABLE "Resources" (
 -- CreateTable
 CREATE TABLE "ResourceNode" (
     "id" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
+    "type" "ResourceType" NOT NULL,
     "coordinatesId" TEXT NOT NULL,
 
     CONSTRAINT "ResourceNode_pkey" PRIMARY KEY ("id")

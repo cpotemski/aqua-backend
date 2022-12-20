@@ -1,7 +1,8 @@
 import {AquaContext} from "../aqua-context.model";
-import {Resolvers} from "../resolvers-types";
+import {Resolvers, Resources} from "../resolvers-types";
 import {SHIP_DATA} from "../ship/ship-data";
-import {generatePrismaOperationForCosts} from "../prisma/helper";
+import {generatePrismaOperationForCosts} from "../prisma/database.helper";
+import {HARVESTER_COSTS} from "../config";
 
 export const buildResolvers: Resolvers<AquaContext> = {
     Query: {
@@ -14,10 +15,13 @@ export const buildResolvers: Resolvers<AquaContext> = {
             const shipName = input.type === 'Ship' ? input.what : null;
             const ship = SHIP_DATA.find(ship => ship.name === shipName);
 
+            //TODO: Calculate harvester costs
+            const costs: Resources = ship.costs || HARVESTER_COSTS;
+
             return prisma.$transaction(async tx => {
                 const updatedResources = await tx.resources.update({
                     where: {id: player.station.resources.id},
-                    data: generatePrismaOperationForCosts(ship.costs)
+                    data: generatePrismaOperationForCosts(costs)
                 });
 
                 if (updatedResources.aluminium < 0 || updatedResources.steel < 0 || updatedResources.plutonium < 0) {

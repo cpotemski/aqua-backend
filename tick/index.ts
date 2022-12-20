@@ -1,7 +1,7 @@
 // interval in seconds
 import {PrismaClient} from "@prisma/client";
-import {ResourceIncome} from "./elements/resourceIncome";
-import {BuildOrderProgress} from "./elements/buildOrderProgress";
+import {ResourceIncome} from "./elements/resource-income.tick";
+import {BuildOrderProgress} from "./elements/build-order-progress.tick";
 
 const TICK_INTERVAL = 30;
 const LOGGING_ACTIVE = true;

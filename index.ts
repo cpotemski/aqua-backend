@@ -7,10 +7,13 @@ import 'dotenv/config';
 import {isTokenValid} from './isTokenValid';
 import {AquaContext} from './aqua-context.model';
 import {merge} from 'lodash';
-import {playerResolvers} from "./player";
-import {buildResolvers} from "./build";
-import {shipResolvers} from "./ship";
-
+import {playerResolvers} from "./player/player.resolvers";
+import {buildResolvers} from "./build/build.resolvers";
+import {shipResolvers} from "./ship/ship.resolvers";
+import {resourceResolvers} from "./resource/resource.resolvers";
+import {generateResourceNodes} from "./resource";
+import {startTick} from "./tick";
+import {fleetResolvers} from "./fleet/fleet.resolvers";
 
 const {GraphQLFileLoader} = require('@graphql-tools/graphql-file-loader');
 
@@ -21,7 +24,9 @@ const typeDefs = loadSchemaSync(join(__dirname, './schema.graphql'), {
 const resolvers: Resolvers<AquaContext> = merge(
     playerResolvers,
     buildResolvers,
-    shipResolvers
+    shipResolvers,
+    resourceResolvers,
+    fleetResolvers
 );
 
 const prisma: PrismaClient = new PrismaClient();
@@ -41,8 +46,10 @@ const server = new ApolloServer({
         return {player, prisma};
     },
 });
-server.listen({port: 4000}).then(() => {
+
+server.listen({port: 4000}).then(async () => {
     console.log('server started');
 
-    // startTick(prisma);
+    await generateResourceNodes(prisma);
+    startTick(prisma);
 })

@@ -13,7 +13,7 @@ export const playerResolvers: Resolvers<AquaContext> = {
                 where: {id}
             });
         },
-        allPlayers: async (_, _1, {prisma}) => {
+        players: async (_, _1, {prisma}) => {
             return prisma.player.findMany();
         }
     },
