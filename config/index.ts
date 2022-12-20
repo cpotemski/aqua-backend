@@ -1,7 +1,10 @@
-
-// harvesters
 import {Resources} from "../resolvers-types";
 
+// general
+export const TICK_INTERVAL = 30;
+export const LOGGING_ACTIVE = true;
+
+// harvesters
 export const HARVESTER_TRAVEL_SPEED = 10; // units per tick
 export const HARVESTER_MINING_SPEED = 2000; // resources per tick
 export const HARVESTER_CAPACITY = 1000;

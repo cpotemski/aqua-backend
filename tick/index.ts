@@ -2,12 +2,13 @@
 import {PrismaClient} from "@prisma/client";
 import {ResourceIncome} from "./elements/resource-income.tick";
 import {BuildOrderProgress} from "./elements/build-order-progress.tick";
+import {FleetMovement} from "./elements/fleet-movement.tick";
+import {LOGGING_ACTIVE, TICK_INTERVAL} from "../config";
 
-const TICK_INTERVAL = 30;
-const LOGGING_ACTIVE = true;
 const elements = [
     ResourceIncome,
-    BuildOrderProgress
+    BuildOrderProgress,
+    FleetMovement
 ];
 
 export const startTick = (prisma: PrismaClient) => {
