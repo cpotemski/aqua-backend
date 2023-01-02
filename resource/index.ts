@@ -1,6 +1,5 @@
 import {PrismaClient} from "@prisma/client";
-import {Coordinates, ResourceNode, ResourceType} from "../resolvers-types";
-import {ResourceIncome} from "../tick/elements/resource-income.tick";
+import {Coordinates, ResourceNode, ResourceNodeWithDistance, ResourceType} from "../resolvers-types";
 
 //TODO: dynamically scale map size depending on player count
 const MAP_SIZE = 100;
@@ -40,7 +39,7 @@ export const calculateDistance = (a: Coordinates, b: Coordinates): number => {
 }
 
 export const findNearestResourceNodes = (nodes: ResourceNode[], coordinates: Coordinates) => {
-    let nearestNodes: {distance: number, type: ResourceType, node: ResourceNode}[] = [];
+    let nearestNodes: ResourceNodeWithDistance[] = [];
     Object.values(ResourceType).forEach(type => nearestNodes.push({distance: 100000, type, node: undefined}));
     nodes.forEach(node => {
         const distance = calculateDistance(node.coordinates, coordinates);
@@ -52,9 +51,5 @@ export const findNearestResourceNodes = (nodes: ResourceNode[], coordinates: Coo
         nearestNode.node = node;
     })
 
-    return {
-        [ResourceType.Aluminium]: nearestNodes.find(node => node.type === ResourceType.Aluminium),
-        [ResourceType.Steel]: nearestNodes.find(node => node.type === ResourceType.Steel),
-        [ResourceType.Plutonium]: nearestNodes.find(node => node.type === ResourceType.Plutonium),
-    }
+    return nearestNodes;
 }

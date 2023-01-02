@@ -14,6 +14,8 @@ import {resourceResolvers} from "./resource/resource.resolvers";
 import {generateResourceNodes} from "./resource";
 import {startTick} from "./tick";
 import {fleetResolvers} from "./fleet/fleet.resolvers";
+import {stationResolvers} from "./station/station.resolvers";
+import { TICK_ACTIVE } from './config';
 
 const {GraphQLFileLoader} = require('@graphql-tools/graphql-file-loader');
 
@@ -26,7 +28,8 @@ const resolvers: Resolvers<AquaContext> = merge(
     buildResolvers,
     shipResolvers,
     resourceResolvers,
-    fleetResolvers
+    fleetResolvers,
+    stationResolvers
 );
 
 const prisma: PrismaClient = new PrismaClient();
@@ -51,5 +54,7 @@ server.listen({port: 4000}).then(async () => {
     console.log('server started');
 
     await generateResourceNodes(prisma);
-    startTick(prisma);
+    if(TICK_ACTIVE) {
+        startTick(prisma);
+    }
 })

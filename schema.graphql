@@ -65,6 +65,8 @@ type Station {
     owner:          Player
     resources:      Resources!
     coordinates:    Coordinates!
+    harvesters:     Int!
+    distribution:   [Int!]!
 }
 
 type Fleet {
@@ -122,6 +124,12 @@ type ResourceNode {
     coordinates:     Coordinates!
 }
 
+type ResourceNodeWithDistance {
+    distance:       Float!
+    type:           ResourceType!
+    node:           ResourceNode!
+}
+
 # inputs
 
 input RegistrationInput {
@@ -139,8 +147,12 @@ input CoordinatesInput {
 
 input BuildOrderInput {
     type:           BuildOrderType!
-    what:           ShipName!
+    what:           ShipName
     amount:         Int!
+}
+
+input HarvesterDistributionInput {
+    distribution:   [Int!]!
 }
 
 # queries and mutations
@@ -152,11 +164,15 @@ type Query {
     buildOrders: [BuildOrder!]!
     shipData: [Ship!]!
     resourceNodes: [ResourceNode!]!
+    stations: [Station!]!
     fleets: [Fleet!]!
+    nearestResourceNodes(coordinates: CoordinatesInput!): [ResourceNodeWithDistance!]!
 }
 
 type Mutation {
     register(input: RegistrationInput!): Player!
-    createBuildOrder(input: BuildOrderInput!): BuildOrder
+    createBuildOrder(input: BuildOrderInput!): BuildOrder!
     createFleet: Fleet
+    deleteFleet(id: String!): Ships
+    updateHarvesterDistribution(input: HarvesterDistributionInput!): Station!
 }

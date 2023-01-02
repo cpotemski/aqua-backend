@@ -17,9 +17,9 @@ export const ResourceIncome: TickElement = {
 
             const nodes = findNearestResourceNodes(resourceNodes, station.coordinates);
 
-            const aluminiumIncome = aluminiumHarvesters * calculateHarvesterIncomePerTick(nodes[ResourceType.Aluminium].distance);
-            const steelIncome = steelHarvesters * calculateHarvesterIncomePerTick(nodes[ResourceType.Steel].distance);
-            const plutoniumIncome = plutoniumHarvesters * calculateHarvesterIncomePerTick(nodes[ResourceType.Plutonium].distance);
+            const aluminiumIncome = aluminiumHarvesters * calculateHarvesterIncomePerTick(nodes.find(node => node.type === ResourceType.Aluminium).distance);
+            const steelIncome = steelHarvesters * calculateHarvesterIncomePerTick(nodes.find(node => node.type === ResourceType.Steel).distance);
+            const plutoniumIncome = plutoniumHarvesters * calculateHarvesterIncomePerTick(nodes.find(node => node.type === ResourceType.Plutonium).distance);
 
             return prisma.station.update({
                 where: {id: station.id},

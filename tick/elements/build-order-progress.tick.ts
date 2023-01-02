@@ -12,7 +12,6 @@ export const BuildOrderProgress: TickElement = {
         const finishedShipBuildOrders = await prisma.buildOrder.findMany({
             where: {
                 remainingTime: 0,
-                //TODO: implement finished building of harvesters
                 type: BuildOrderType.Ship
             }
         });
@@ -24,7 +23,22 @@ export const BuildOrderProgress: TickElement = {
                 where: {id: baseFleet.id},
                 data: {ships: {update: {[order.what]: {increment: order.amount}}}}
             });
-            await prisma.buildOrder.delete({where: {id: order.id}});
         }))
+
+        const finishedHarvesterBuildOrders = await prisma.buildOrder.findMany({
+            where: {
+                remainingTime: 0,
+                type: BuildOrderType.Harvester
+            }
+        });
+
+        await Promise.all(finishedHarvesterBuildOrders.map(async order => {
+            await prisma.station.update({
+                where: {ownerId: order.ownerId},
+                data: {harvesters: {increment: order.amount}}
+            });
+        }));
+
+        await prisma.buildOrder.deleteMany({where: {remainingTime: 0}});
     }
 }
