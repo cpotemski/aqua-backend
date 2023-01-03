@@ -1,9 +1,9 @@
 import {TickElement} from "../tick-element.model";
-import {PrismaClient} from "@prisma/client";
 import {generatePrismaOperationForCosts} from "../../prisma/database.helper";
+import {PrismaClient} from "@prisma/client";
 
 export const FleetMovement: TickElement = {
-    name: 'buildOrderProgress',
+    name: 'fleetMovement',
     async tick(prisma: PrismaClient) {
         // move all fleets
         await prisma.fleet.updateMany({where: {remainingTime: {gt: 0}}, data: {remainingTime: {decrement: 1}}});
@@ -29,8 +29,9 @@ export const FleetMovement: TickElement = {
                 targetId: null,
                 travelTime: null,
                 remainingTime: null,
+                action: null,
                 actionTicks: null,
-                returning: null
+                returning: null,
             }
         })
 

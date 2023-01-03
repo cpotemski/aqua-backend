@@ -10,6 +10,9 @@ CREATE TYPE "ShipType" AS ENUM ('Normal', 'Emp', 'FirstStrike');
 -- CreateEnum
 CREATE TYPE "BuildOrderType" AS ENUM ('Ship', 'Harvester');
 
+-- CreateEnum
+CREATE TYPE "FleetActionType" AS ENUM ('Attack', 'Defend');
+
 -- CreateTable
 CREATE TABLE "Player" (
     "id" TEXT NOT NULL,
@@ -41,6 +44,7 @@ CREATE TABLE "Fleet" (
     "resourcesId" TEXT,
     "travelTime" INTEGER,
     "remainingTime" INTEGER,
+    "action" "FleetActionType",
     "actionTicks" INTEGER,
     "returning" BOOLEAN,
 

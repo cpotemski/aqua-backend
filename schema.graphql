@@ -32,6 +32,11 @@ enum BuildOrderType {
     Harvester
 }
 
+enum FleetActionType {
+    Attack
+    Defend
+}
+
 # types
 
 type Player {
@@ -155,6 +160,13 @@ input HarvesterDistributionInput {
     distribution:   [Int!]!
 }
 
+input StartFleetInput {
+    id: String!
+    coordinates: CoordinatesInput!
+    action: FleetActionType!
+    actionTicks: Int!
+}
+
 # queries and mutations
 
 type Query {
@@ -173,6 +185,8 @@ type Mutation {
     register(input: RegistrationInput!): Player!
     createBuildOrder(input: BuildOrderInput!): BuildOrder!
     createFleet: Fleet
+    startFleet(input: StartFleetInput!): Fleet
+    recallFleet(id: String!): Fleet
     deleteFleet(id: String!): Ships
     updateHarvesterDistribution(input: HarvesterDistributionInput!): Station!
 }

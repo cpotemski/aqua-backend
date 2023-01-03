@@ -42,6 +42,7 @@ model Fleet {
     resourcesId     String?     @unique
     travelTime      Int?
     remainingTime   Int?
+    action          FleetActionType?
     actionTicks     Int?
     returning       Boolean?
 }
@@ -133,5 +134,10 @@ enum ShipType {
 enum BuildOrderType {
     Ship
     Harvester
+}
+
+enum FleetActionType {
+    Attack
+    Defend
 }
 
