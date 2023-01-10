@@ -4,8 +4,11 @@ import {Resolvers} from "../resolvers-types";
 export const playerResolvers: Resolvers<AquaContext> = {
     Query: {
         me: async (_, _1, {prisma, player}) => {
+            const station = await prisma.station.findFirst({where: {ownerId: player.id}, select: {coordinates: true}});
             return {
-                id: player.id
+                id: player.id,
+                name: player.name,
+                coordinates: station.coordinates
             };
         },
         playerById: async (_, {id}, {prisma}) => {

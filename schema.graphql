@@ -49,6 +49,8 @@ type Player {
 
 type PlayerContext {
     id:             String!
+    name:           String!
+    coordinates:    Coordinates
 }
 
 type Resources {

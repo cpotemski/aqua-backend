@@ -2,7 +2,7 @@ import {AquaContext} from "../aqua-context.model";
 import {Resolvers} from "../resolvers-types";
 import {generatePrismaOperationForShips} from "../prisma/database.helper";
 import {MAX_FLEETS_PER_PLAYER} from "../config";
-import {fleetResetData, isFleetBusy} from "./index";
+import {isFleetBusy} from "./index";
 import {calculateDistance} from "../resource";
 
 export const fleetResolvers: Resolvers<AquaContext> = {
